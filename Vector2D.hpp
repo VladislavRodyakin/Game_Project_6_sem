@@ -2,8 +2,8 @@
 #include <iostream>
 
 class Vector2D{
-	float m_x;
-	float m_y;
+	float m_x = 0.0f;
+	float m_y = 0.0f;
 	
 	Vector2D& Add(const Vector2D& vec);
 	Vector2D& Subtract(const Vector2D& vec);

@@ -4,9 +4,9 @@
 class GameObject
 {
 	int m_xpos = 0, m_ypos = 0;
-	SDL_Texture* m_obj_texture;
-	SDL_Rect m_src_R, m_dst_R;
-	SDL_Renderer* m_renderer;
+	SDL_Texture* m_obj_texture = nullptr;
+	SDL_Rect m_src_R = { 0,0,0,0 }, m_dst_R = { 0,0,0,0 };
+	SDL_Renderer* m_renderer = nullptr;
 
 public:
 	GameObject(std::string texture_path, SDL_Renderer* renderer, int xpos = 0, int ypos = 0);

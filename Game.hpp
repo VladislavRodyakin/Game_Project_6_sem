@@ -3,25 +3,38 @@
 #include "SDL_image.h"
 #include <string>
 #include <vector>
+//#include "AssetManager.hpp"
 
 class ColliderComponent;
+class AssetManager; // for some reason include didn't work
 
 class Game {
-	std::string m_title;
-	bool m_isRunning = false, m_fullscreen;
-	int m_x_window_pos, m_y_window_pos, m_window_width, m_window_height;
-	SDL_Window* m_window;
-	SDL_Renderer* m_renderer;
-	long long cnt;
+	std::string m_title = "";
+	bool m_isRunning = false, m_fullscreen = false;
+	int m_x_window_pos = 0, m_y_window_pos = 0, m_window_width = 0, m_window_height = 0;
+	SDL_Window* m_window = nullptr;
+	SDL_Renderer* m_renderer = nullptr;
+	long long cnt = 0;
 
 public:
 	static SDL_Event game_event;
 	static std::vector<ColliderComponent*> m_colliders;
+	static SDL_Rect camera_position;
+	static AssetManager m_asset_manager;
 
-	Game();
+	//static void AddTile(int id, int x, int y, SDL_Renderer* renderer);
+	//static void AddTile(int srcX, int srcY, int x, int y, SDL_Renderer* renderer);
+
+	enum groupLabels : std::size_t {
+		groupMap, groupPlayers, groupEnemies, groupColliders, groupProjectiles
+	};
+
+	//Game();
+	Game(const std::string title = "Game", int x_window_pos = SDL_WINDOWPOS_CENTERED, int y_window_pos = SDL_WINDOWPOS_CENTERED,
+		int window_width = 1000, int window_height = 900, bool fullscreen = false);
 	~Game();
 	void init(const std::string title = "Game", int x_window_pos = SDL_WINDOWPOS_CENTERED, int y_window_pos = SDL_WINDOWPOS_CENTERED,
-		int window_width = 1600, int window_height = 900, bool fullscreen = false);
+		int window_width = 1000, int window_height = 900, bool fullscreen = false);
 	void handleEvents();
 	void update();
 	void render();
