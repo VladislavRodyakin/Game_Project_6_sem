@@ -15,8 +15,8 @@ class ColliderComponent : public Component {
 
 public:
 	ColliderComponent();
-	ColliderComponent(std::string tag, SDL_Renderer* renderer);
-	ColliderComponent(std::string tag, int xpos, int ypos, int size, SDL_Renderer* renderer);
+	ColliderComponent(const std::string& tag, SDL_Renderer* renderer);
+	ColliderComponent(const std::string& tag, int xpos, int ypos, int size, SDL_Renderer* renderer);
 
 	void init() override;
 	void update() override;

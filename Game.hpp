@@ -17,23 +17,22 @@ class Game {
 	long long cnt = 0;
 
 public:
+	enum groupLabels : std::size_t {
+		groupMap, groupPlayers, groupEnemies, groupColliders, groupProjectiles
+	};
+
 	static SDL_Event game_event;
 	static std::vector<ColliderComponent*> m_colliders;
 	static SDL_Rect camera_position;
 	static AssetManager m_asset_manager;
 
-	//static void AddTile(int id, int x, int y, SDL_Renderer* renderer);
-	//static void AddTile(int srcX, int srcY, int x, int y, SDL_Renderer* renderer);
 
-	enum groupLabels : std::size_t {
-		groupMap, groupPlayers, groupEnemies, groupColliders, groupProjectiles
-	};
 
-	//Game();
-	Game(const std::string title = "Game", int x_window_pos = SDL_WINDOWPOS_CENTERED, int y_window_pos = SDL_WINDOWPOS_CENTERED,
+	Game(const std::string& title = "Game", int x_window_pos = SDL_WINDOWPOS_CENTERED, int y_window_pos = SDL_WINDOWPOS_CENTERED,
 		int window_width = 1000, int window_height = 900, bool fullscreen = false);
 	~Game();
-	void init(const std::string title = "Game", int x_window_pos = SDL_WINDOWPOS_CENTERED, int y_window_pos = SDL_WINDOWPOS_CENTERED,
+
+	void init(const std::string& title = "Game", int x_window_pos = SDL_WINDOWPOS_CENTERED, int y_window_pos = SDL_WINDOWPOS_CENTERED,
 		int window_width = 1000, int window_height = 900, bool fullscreen = false);
 	void handleEvents();
 	void update();

@@ -1,7 +1,6 @@
 #include "TextureManager.hpp"
 
-SDL_Texture* TextureManager::LoadTexture(std::string image_path, SDL_Renderer* ren)
-{
+SDL_Texture* TextureManager::LoadTexture(std::string image_path, SDL_Renderer* ren) {
 	SDL_Surface* tmpSurface = IMG_Load(image_path.c_str());
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, tmpSurface);
 	SDL_FreeSurface(tmpSurface);

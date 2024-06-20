@@ -3,9 +3,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <random>
 #include "Game.hpp"
 #include "TextureManager.hpp"
-#include "GameObject.hpp"
 #include "Map.hpp"
 #include "ECS/ECS.hpp"
 #include "ECS/Components.hpp"
@@ -13,23 +13,16 @@
 #include "Collision.hpp"
 #include "AssetManager.hpp"
 
-//GameObject* player;
-//GameObject* player2;
-Map* map;
 Manager manager;
 SDL_Event Game::game_event;
-//SDL_Rect Game::camera_position;
 SDL_Rect Game::camera_position;
 AssetManager Game::m_asset_manager{ &manager };
 
-#define TERRAIN_TILE_PATH "assets/terrain_tiles.png" // what is better to use?
-//const std::string TERRAIN_TILE_PATH = "assets/terrain_tiles.png";
-//const std::string TERRAIN_TILE_PATH = "";
-const SDL_Color WHITE = { 255, 255, 255, 255 };
-const SDL_Color BLACK_al255 = { 0, 0, 0, 255 };
-const SDL_Color BLACK_al0 = { 0, 0, 0, 0 };
-
+// which one is better to use?
+//#define TERRAIN_TILE_PATH "assets/terrain_tiles.png" 
+const std::string TERRAIN_TILE_PATH = "assets/terrain_tiles.png";
 const std::string CONTROLS_TEXT = "Move with WASD, ESC to quit";
+
 
 std::vector<ColliderComponent*> Game::m_colliders;
 
@@ -37,17 +30,12 @@ auto& new_player(manager.addEntity());
 auto& position_label(manager.addEntity());
 auto& commands_label(manager.addEntity());
 
-auto& wall(manager.addEntity());
+//auto& wall(manager.addEntity());
 //auto& tile0(manager.addEntity());
-//auto& tile1(manager.addEntity());
-//auto& tile2(manager.addEntity());
 
 
 
-//Game::Game(){
-//}
-
-Game::Game(const std::string title, int x_window_pos, int y_window_pos,
+Game::Game(const std::string& title, int x_window_pos, int y_window_pos,
 	int window_width, int window_height, bool fullscreen) : 
 	m_title(title), m_x_window_pos(x_window_pos), m_y_window_pos(y_window_pos),
 	m_window_width(window_width), m_window_height(window_height), m_fullscreen(fullscreen)
@@ -59,7 +47,7 @@ Game::~Game() {
 	clean();
 }
 
-void Game::init(const std::string title, int x_window_pos, int y_window_pos, int window_width, int window_height, bool fullscreen) {
+void Game::init(const std::string& title, int x_window_pos, int y_window_pos, int window_width, int window_height, bool fullscreen) {
 	camera_position.x = camera_position.y = 0;
 	camera_position.w = window_width/2;
 	camera_position.h = window_height/2;
@@ -96,48 +84,44 @@ void Game::init(const std::string title, int x_window_pos, int y_window_pos, int
 	m_asset_manager.AddTexture("player", "assets/test_anim_added.png", m_renderer);
 	m_asset_manager.AddTexture("projectile", "assets/projectile_transparent.png", m_renderer);
 
-	//map = new Map(15, 10, m_renderer);
-	//player = new GameObject("assets/test_2.png", m_renderer);
-	//map = new Map(TERRAIN_TILE_PATH, 1, 50, m_renderer);
-	map = new Map("terrain", 1, 50, m_renderer);
+	Map map{ "terrain", 1, 50, m_renderer };
 
 
-	/*tile0.addComponent<TileComponent>(200, 200, TextureManager::h_texture_dimension, TextureManager::w_texture_dimension, 0, m_renderer);
-	tile1.addComponent<TileComponent>(250, 250, TextureManager::h_texture_dimension, TextureManager::w_texture_dimension, 1, m_renderer);
-	tile2.addComponent<TileComponent>(150, 150, TextureManager::h_texture_dimension, TextureManager::w_texture_dimension, 3, m_renderer);
+	/*tile2.addComponent<TileComponent>(200, 200, TextureManager::h_texture_dimension, TextureManager::w_texture_dimension, 0, m_renderer);
 	tile2.addComponent<ColliderComponent>("asteroids");
 	tile2.addGroup(groupColliders);*/
 	
 
-	position_label.addComponent<UILabel>(50, 50, "Test label", "arial_test", BLACK_al255, m_renderer);
-	commands_label.addComponent<UILabel>(20, m_window_height - 50, CONTROLS_TEXT, "arial_test", BLACK_al255, m_renderer);
+	position_label.addComponent<UILabel>(50, 50, "Test label", "arial_test", TextureManager::BLACK, m_renderer);
+	commands_label.addComponent<UILabel>(20, m_window_height - 50, CONTROLS_TEXT, "arial_test", TextureManager::BLACK, m_renderer);
 
 
 	new_player.addComponent<TransformComponent>();
 	new_player.addComponent<ColliderComponent>("player", m_renderer);
-	//new_player.getComponent<TransformComponent>().setPosition(62, 150);
-	new_player.getComponent<TransformComponent>().setPosition(window_width/2, window_height/2);
-	//new_player.getComponent<TransformComponent>().setScale(2);
-	//new_player.addComponent<SpriteComponent>("assets/test.png", m_renderer);
-	//new_player.addComponent<SpriteComponent>("assets/test_anim_added.png", true, m_renderer);
+
+	//centered player
+	new_player.getComponent<TransformComponent>().setPosition(static_cast<int>(window_width / 2.0), static_cast<int>(window_height / 2.0));
+	//left-top corner positioned player
+	//new_player.getComponent<TransformComponent>().setPosition(75, 75);
+	
 	new_player.addComponent<SpriteComponent>("player", true, m_renderer);
 	new_player.addGroup(Game::groupPlayers);
 	new_player.addComponent<KeyboardController>();
 
+
+	//TODO: make them randomly appear
+	
+
 	m_asset_manager.CreateProjectile(Vector2D{100,100}, Vector2D{ 1,1 }, 20000, 5, "projectile", m_renderer);
 
-	wall.addComponent<TransformComponent>();
-	wall.addGroup(Game::groupColliders);
-	//wall.addComponent<ColliderComponent>("wall",m_renderer);
+
+	/*wall.addGroup(Game::groupColliders);
 	wall.addComponent<ColliderComponent>("wall", 215, 255, 50, m_renderer);
-	//wall.getComponent<TransformComponent>().setPosition(215,255);
 	wall.getComponent<TransformComponent>().setHeight(50);
 	wall.getComponent<TransformComponent>().setWidth(50);
-	wall.addComponent<SpriteComponent>("assets/asteroids_tile.png", m_renderer);
+	wall.addComponent<SpriteComponent>("assets/asteroids_tile.png", m_renderer);*/
 	
-	//Map::LoadMap("assets/13c10r_map_file.map", 13, 10, m_renderer);
-	//Map::LoadMap("assets/coord_map.map", 13, 15, m_renderer);
-	map->loadMap("assets/coord_map.map", 13, 15, m_renderer);
+	map.loadMap("assets/coord_map.map", 13, 15, m_renderer);
 }
 
 auto& tiles(manager.getGroup(Game::groupMap));
@@ -159,6 +143,25 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
+	std::random_device pos_rng_dev;
+	std::random_device dir_rng_dev;
+	std::random_device speed_rng_dev;
+	std::mt19937 pos_rng(pos_rng_dev());
+	std::mt19937 dir_rng(dir_rng_dev());
+	std::mt19937 speed_rng(speed_rng_dev());
+	std::uniform_int_distribution<std::mt19937::result_type> position_rng(75, 575); // distribution in range [1, 6]
+	std::uniform_int_distribution<std::mt19937::result_type> direction_rng(0, 500); // distribution in range [1, 6]
+	std::uniform_int_distribution<std::mt19937::result_type> movespeed_rng(0, 20); // distribution in range [1, 6]
+
+	//std::cout << position_rng(pos_rng_dev) << std::endl;
+	if (projectiles.size() == 0)
+	{
+		//PROJECTILE IMMEDEATLY DIES
+		m_asset_manager.CreateProjectile(Vector2D{ static_cast<float>(position_rng(pos_rng)), static_cast<float>(position_rng(pos_rng)) }, Vector2D{ static_cast<float>(direction_rng(dir_rng)),static_cast<float>(direction_rng(dir_rng)) }, 20000, movespeed_rng(speed_rng), "projectile", m_renderer);
+		std::cout<<projectiles[0]->getComponent<TransformComponent>().getPosition()<<std::endl;
+	}
+
+
 	if (game_event.type == SDL_KEYUP and game_event.key.keysym.sym == SDLK_ESCAPE) {
 		m_isRunning = false;
 		return;
@@ -168,49 +171,50 @@ void Game::update() {
 
 
 	SDL_Rect player_collider = new_player.getComponent<ColliderComponent>().getCollider();
-	Vector2D playerPos = new_player.getComponent<TransformComponent>().getPosition();
+	Vector2D player_previous_position = new_player.getComponent<TransformComponent>().getPosition();
+	Vector2D player_velocity = new_player.getComponent<TransformComponent>().getVelocity();
+	int player_speed = new_player.getComponent<TransformComponent>().getSpeed();
 	cnt++;
-	string_stream << "player pos" << playerPos;
+	string_stream << "player pos" << player_previous_position;
 	position_label.getComponent<UILabel>().SetLabelText(string_stream.str());
 	manager.refresh();
 	manager.update();
 
 	
 	for (auto& collider : colliders) {
-		//SDL_Rect col = collider->getComponent<ColliderComponent>().getCollider();
 		if (Collision::AABB(
 			collider->getComponent<ColliderComponent>().getCollider(),
 			player_collider)) {
-			new_player.getComponent<TransformComponent>().setPosition(playerPos);
+
+			// try labirynth with and without speed
+			new_player.getComponent<TransformComponent>().setPosition(player_previous_position - player_velocity*player_speed);
 		}
 	}
 
 	for (auto& projectile : projectiles) {
-		//SDL_Rect col = collider->getComponent<ColliderComponent>().getCollider();
 		if (Collision::AABB(
 			projectile->getComponent<ColliderComponent>().getCollider(),
 			player_collider)) {
 			std::cout << "Projectile hit player" << std::endl;
 			projectile->destroy();
+
+			//also reset player position
 		}
 	}
 
-	/*if (cnt >= 5) {
-		Game::game_event.type = SDL_KEYDOWN;
-		Game::game_event.key.keysym.sym = SDLK_d;
-	}*/
-	/*Vector2D player_velocity = new_player.getComponent<TransformComponent>().getVelocity();
-	int player_speed = new_player.getComponent<TransformComponent>().getSpeed();
+
+	/*int player_speed = new_player.getComponent<TransformComponent>().getSpeed();
 
 	for (auto& tile : tiles) {
 		tile->getComponent<TileComponent>().addDestX(-player_velocity.x() * player_speed);
 		tile->getComponent<TileComponent>().addDestY(-player_velocity.y() * player_speed);
 	}*/
 
-	camera_position.x = new_player.getComponent<TransformComponent>().x() - camera_position.w;
-	camera_position.y = new_player.getComponent<TransformComponent>().y() - camera_position.h;
-	//std::cout << "cam " << camera_position.x << " " << camera_position.y << std::endl;
 
+	//disable this for static camera
+	//camera_position.x = static_cast<int>(new_player.getComponent<TransformComponent>().x() - camera_position.w);
+	//camera_position.y = static_cast<int>(new_player.getComponent<TransformComponent>().y() - camera_position.h);
+	
 	if (camera_position.x < 0) {
 		camera_position.x = 0;
 	}
@@ -247,24 +251,19 @@ void Game::render() {
 	
 	
 	for (auto& tile : tiles) {
-		//tile->draw(m_renderer);
 		tile->draw();
 	}
 	for (auto& player : players) {
-		//player->draw(m_renderer);
 		player->draw();
 	}
 	for (auto& projectile : projectiles) {
-		//player->draw(m_renderer);
 		projectile->draw();
 	}
 	
 	for (auto& enemy : enemies) {
-		//enemy->draw(m_renderer);
 		enemy->draw();
 	}
 	for (auto& collider : colliders) {
-		//collider->draw(m_renderer);
 		collider->draw();
 	}
 

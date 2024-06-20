@@ -7,7 +7,6 @@ int main(int argc, char* argv[]) {
 	const int frameDelay = 1000 / FPS;
 
 	Game game;
-	//game.init();
 
 	int frameTime = 0;
 	size_t frameStart = 0;
@@ -19,13 +18,11 @@ int main(int argc, char* argv[]) {
 		game.update();
 		game.render();
 
-		frameTime = SDL_GetTicks() - frameStart;
+		frameTime = static_cast<int>(SDL_GetTicks() - frameStart);
 		if (frameDelay > frameTime) {
 			SDL_Delay(frameDelay - frameTime);
 		}
 	}
 
-	//Game destructor will call this
-	//game.clean(); 
 	return 0;
 }

@@ -10,7 +10,9 @@
 class AssetManager {
 	std::unordered_map<std::string, SDL_Texture*> m_textures = {};
 	std::unordered_map<std::string, TTF_Font*> m_fonts = {};
-	Manager* m_manager = nullptr;
+	Manager* m_manager = nullptr; 
+	//weak requires lock() wich causes problems with uniq_ptrs inside Manager
+	//shared_ptrs cause errors on game close
 
 
 public:
@@ -20,17 +22,17 @@ public:
 
 
 	//game object management
-	void CreateProjectile(Vector2D pos, Vector2D direction, int range, int speed, std::string texture_id, SDL_Renderer* renderer);
+	void CreateProjectile(Vector2D pos, Vector2D direction, int range, int speed, const std::string& texture_id, SDL_Renderer* renderer);
 
 
 	//texture management
-	void AddTexture(std::string id, std::string path, SDL_Renderer* renderer);
-	SDL_Texture* GetTexture(std::string id);
+	void AddTexture(const std::string& id, const std::string& path, SDL_Renderer* renderer);
+	SDL_Texture* GetTexture(const std::string& id);
 	
 	
 	//texture management
-	void AddFont(std::string id, std::string path, int size);
-	TTF_Font* GetFont(std::string id);
+	void AddFont(const std::string& id, const std::string& path, int size);
+	TTF_Font* GetFont(const std::string& id);
 
 
 

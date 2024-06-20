@@ -69,6 +69,7 @@ void Entity::delGroup(Group group) {
     m_groupBitSet[group] = false;
 }
 
+
 //void Manager::update(SDL_Event* m_event) {
 void Manager::update() {
     for (auto& entity : m_entities) {

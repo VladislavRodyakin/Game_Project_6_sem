@@ -42,13 +42,12 @@ public:
 
 	virtual ~Component();
 	//redo as interfaces
-	//have to think how to really do this
+	//have to think how to do this
 
 	virtual void init();
 	virtual void update();
 	virtual void draw();
-	//virtual void update(SDL_Event* m_event) = 0;
-	//virtual void draw(SDL_Renderer* renderer);
+
 };
 
 class Entity {
@@ -63,9 +62,7 @@ protected:
 public:
 	Entity(Manager& manager);
 
-	//void update(SDL_Event* m_event);
 	void update();
-	//void draw(SDL_Renderer* renderer);
 	void draw();
 	bool isActive() const;
 	void destroy();
@@ -104,9 +101,7 @@ protected:
 	std::vector<std::unique_ptr<Entity>> m_entities = {};
 	std::array<std::vector<Entity*>, maxGroups> m_groupedEntities = {};
 public:
-	//void update(SDL_Event* m_event);
 	void update();
-	//void draw(SDL_Renderer* renderer);
 	void draw();
 	void refresh();
 

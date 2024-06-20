@@ -19,10 +19,16 @@ void ProjectileComponent::update() {
 		std::cout << "Projectile exceeded range" << std::endl;
 		m_entity->destroy();
 	}
-	else if (m_transform->x() > Game::camera_position.x + Game::camera_position.w * 2 or
+
+	// SOMETHING NOT RIGHT
+	/*else if (m_transform->x() > Game::camera_position.x + Game::camera_position.w * 2 or
 		m_transform->x() < Game::camera_position.x or
 		m_transform->y() > Game::camera_position.y + Game::camera_position.h * 2 or
-		m_transform->y() < Game::camera_position.y)
+		m_transform->y() < Game::camera_position.y)*/
+	else if (m_transform->x() > 800 or
+		m_transform->x() < 0 or
+		m_transform->y() > 800 or
+		m_transform->y() < 0)
 	{
 		std::cout << "Projectile gone out of bounds" << std::endl;
 		m_entity->destroy();

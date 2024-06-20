@@ -4,8 +4,8 @@ TileComponent::TileComponent(int srcX, int srcY, int xpos, int ypos, int tsize, 
 	: m_renderer(renderer) {
 	m_texture = Game::m_asset_manager.GetTexture(texture_id);
 
-	m_position.x(xpos);
-	m_position.y(ypos);
+	m_position.x(static_cast<float>(xpos));
+	m_position.y(static_cast<float>(ypos));
 
 	m_src_r.x = srcX;
 	m_src_r.y = srcY;
@@ -39,6 +39,6 @@ void TileComponent::draw() {
 }
 
 void TileComponent::update() {
-	m_dst_r.x = m_position.x() - Game::camera_position.x;
-	m_dst_r.y = m_position.y() - Game::camera_position.y;
+	m_dst_r.x = static_cast<int>(m_position.x()) - Game::camera_position.x;
+	m_dst_r.y = static_cast<int>(m_position.y()) - Game::camera_position.y;
 }

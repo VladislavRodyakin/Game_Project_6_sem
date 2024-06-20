@@ -4,11 +4,11 @@ ColliderComponent::ColliderComponent() {
 	this->init();
 }
 
-ColliderComponent::ColliderComponent(std::string tag, SDL_Renderer* renderer) 
+ColliderComponent::ColliderComponent(const std::string& tag, SDL_Renderer* renderer)
 	: m_tag(tag), m_renderer(renderer) {
 }
 
-ColliderComponent::ColliderComponent(std::string tag, int xpos, int ypos, int size, SDL_Renderer* renderer)
+ColliderComponent::ColliderComponent(const std::string& tag, int xpos, int ypos, int size, SDL_Renderer* renderer)
 	: m_tag(tag), m_renderer(renderer) {
 	m_collider.x = xpos;
 	m_collider.y = ypos;
@@ -18,7 +18,7 @@ ColliderComponent::ColliderComponent(std::string tag, int xpos, int ypos, int si
 void ColliderComponent::init() {
 	if (!m_entity->hasComponent<TransformComponent>()) {
 		m_entity->addComponent<TransformComponent>();
-		// 
+		// no longer needs exceptions because of component groups implementation
 
 		//throw std::exception();
 		//had to do this because of tile implementation
