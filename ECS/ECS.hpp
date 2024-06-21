@@ -103,6 +103,7 @@ protected:
 public:
 	void update();
 	void draw();
+	void draw(std::vector<std::vector<Entity*>> groups);
 	void refresh();
 
 	void addToGroup(Entity* entity, Group group);

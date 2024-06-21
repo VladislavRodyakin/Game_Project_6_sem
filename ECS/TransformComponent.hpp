@@ -13,10 +13,6 @@ class TransformComponent : public Component {
 	int m_speed = 3;
 	bool m_blocked = false;
 public:
-	/*TransformComponent(int scale) {
-		m_position.x(400);
-		m_position.y(320);
-	}*/
 
 	TransformComponent() = default;
 	TransformComponent(float x, float y);
@@ -43,6 +39,7 @@ public:
 	void setWidth(int width);
 	void setHeight(int height);
 	void setScale(int scale);
+	void setSpeed(int speed);
 
 	void init() override;
 	void update() override;

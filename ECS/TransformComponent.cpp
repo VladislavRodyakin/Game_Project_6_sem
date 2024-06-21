@@ -70,29 +70,26 @@ void TransformComponent::setScale(int scale) {
 	m_scale = scale;
 }
 
+void TransformComponent::setSpeed(int speed) {
+	m_speed = speed;
+}
+
+
 void TransformComponent::init() {
 	m_velocity.Zero();
 }
 
 void TransformComponent::update() {
-	//m_position.x(m_position.x() + static_cast<int>(m_velocity.x() * m_speed));
-	//m_position.y(m_position.y() + static_cast<int>(m_velocity.y() * m_speed));
-
 	m_position += Vector2D(m_velocity.x() * m_speed, m_velocity.y() * m_speed);
-
-	/*m_position.x(m_position.x() + m_velocity.x() * m_speed);
-	m_position.y(m_position.y() + m_velocity.y() * m_speed);*/
 }
 
 void TransformComponent::setPosition(float x, float y) {
 	m_position.x(x);
 	m_position.y(y);
-	std::cout << "float  setpos called " << m_position.x() << " " << m_position.y() << std::endl;
 }
 
 void TransformComponent::setPosition(const Vector2D& pos) {
 	m_position = pos;
-	std::cout << "vector setpos called " << m_position.x() << " " << m_position.y() << std::endl;
 }
 
 const Vector2D& TransformComponent::getPosition(){

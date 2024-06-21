@@ -1,6 +1,7 @@
 #pragma once
 #include "SDL.h"
 #include "SDL_image.h"
+#include "ECS/ECS.hpp"
 #include <string>
 #include <vector>
 //#include "AssetManager.hpp"
@@ -15,10 +16,13 @@ class Game {
 	SDL_Window* m_window = nullptr;
 	SDL_Renderer* m_renderer = nullptr;
 	long long cnt = 0;
+	int m_count = 0;
+	std::vector<std::vector<Entity*>> m_groups = {};
+
 
 public:
 	enum groupLabels : std::size_t {
-		groupMap, groupPlayers, groupEnemies, groupColliders, groupProjectiles
+		groupMap, groupPlayers, groupEnemies, groupColliders, groupProjectiles, groupLabels
 	};
 
 	static SDL_Event game_event;

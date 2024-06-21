@@ -13,5 +13,4 @@ public:
 
 	void init() override;
 	void update() override;
-	//void update(SDL_Event* m_event) override {
 };

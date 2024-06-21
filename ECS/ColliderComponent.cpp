@@ -18,31 +18,11 @@ ColliderComponent::ColliderComponent(const std::string& tag, int xpos, int ypos,
 void ColliderComponent::init() {
 	if (!m_entity->hasComponent<TransformComponent>()) {
 		m_entity->addComponent<TransformComponent>();
-		// no longer needs exceptions because of component groups implementation
-
-		//throw std::exception();
-		//had to do this because of tile implementation
-		//just have to init everything in correct order then
-
-
-
-	//THROW AN ERROR HERE
-		//COLLIDER POSITION UPDATE IS INIT_ORDER-SENTENSIVE
-	//THROW AN ERROR HERE
-		//COLLIDER POSITION UPDATE IS INIT_ORDER-SENTENSIVE
-	//THROW AN ERROR HERE
-		//COLLIDER POSITION UPDATE IS INIT_ORDER-SENTENSIVE
-	//THROW AN ERROR HERE
-		//COLLIDER POSITION UPDATE IS INIT_ORDER-SENTENSIVE
-	//THROW AN ERROR HERE
-		//COLLIDER POSITION UPDATE IS INIT_ORDER-SENTENSIVE
 	}
+
 	m_transform = &m_entity->getComponent<TransformComponent>();
-	m_texture = TextureManager::LoadTexture("assets/col_tex_transparent.png", m_renderer);
-	//m_texture = TextureManager::LoadTexture("assets/col_tex.png", m_renderer);
 	m_src_r = { 0,0,TextureManager::h_texture_dimension,TextureManager::w_texture_dimension };
 	m_dst_r = { m_collider.x, m_collider.y, m_collider.h, m_collider.w };
-	//Game::m_colliders.push_back(this);
 }
 
 void ColliderComponent::update() {

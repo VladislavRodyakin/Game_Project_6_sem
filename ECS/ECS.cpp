@@ -19,11 +19,8 @@ void Component::update() {
     return;
 }
 
-//void Component::draw(SDL_Renderer* renderer)
 void Component::draw() {
-    return; // TODO probably should add this only to component that are drawable
-            // maybe do an interface segregation to component and componentDrawable
-        // but then there is problem with Entity::draw
+    return; 
 }
 
 
@@ -32,18 +29,14 @@ Entity::Entity(Manager& manager) : m_manager(manager)
 {
 }
 
-//void Entity::update(SDL_Event* m_event){
 void Entity::update(){
     for (auto& c : m_components) {
-        //c->update(m_event);
         c->update();
     }
 }
 
-//void Entity::draw(SDL_Renderer* renderer) {
 void Entity::draw() {
     for (auto& c : m_components) {
-        //c->draw(renderer);
         c->draw();
     }
 };
@@ -70,19 +63,23 @@ void Entity::delGroup(Group group) {
 }
 
 
-//void Manager::update(SDL_Event* m_event) {
 void Manager::update() {
     for (auto& entity : m_entities) {
-        //entity->update(m_event);
         entity->update();
     }
 }
 
-//void Manager::draw(SDL_Renderer* renderer) {
 void Manager::draw() {
     for (auto& entity : m_entities) {
-        //entity->draw(renderer);
         entity->draw();
+    }
+}
+
+void Manager::draw(std::vector<std::vector<Entity*>> groups) {
+    for (auto& group : groups) {
+        for (auto& entity : group) {
+            entity->draw();
+        }
     }
 }
 

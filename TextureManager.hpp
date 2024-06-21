@@ -5,6 +5,7 @@
 namespace TextureManager {
 	const SDL_Color WHITE = { 255, 255, 255, 255 };
 	const SDL_Color BLACK = { 0, 0, 0, 255 };
+	const SDL_Color RED = { 255, 0, 0, 255 };
 
 	const int w_texture_dimension = 50;
 	const int h_texture_dimension = 50;

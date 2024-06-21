@@ -12,6 +12,7 @@ ProjectileComponent::~ProjectileComponent()
 void ProjectileComponent::init() {
 	m_transform = &m_entity->getComponent<TransformComponent>();
 	m_transform->setVelocity(m_direction);
+	m_transform->setSpeed(m_speed);
 }
 
 void ProjectileComponent::update() {
@@ -20,16 +21,12 @@ void ProjectileComponent::update() {
 		m_entity->destroy();
 	}
 
-	// SOMETHING NOT RIGHT
-	/*else if (m_transform->x() > Game::camera_position.x + Game::camera_position.w * 2 or
+	else if (m_transform->x() > Game::camera_position.x + Game::camera_position.w * 2 or
 		m_transform->x() < Game::camera_position.x or
-		m_transform->y() > Game::camera_position.y + Game::camera_position.h * 2 or
-		m_transform->y() < Game::camera_position.y)*/
-	else if (m_transform->x() > 800 or
-		m_transform->x() < 0 or
-		m_transform->y() > 800 or
-		m_transform->y() < 0)
+		m_transform->y() > Game::camera_position.y + Game::camera_position.h * 2 - 90 or
+		m_transform->y() < Game::camera_position.y)
 	{
+		std::cout << m_transform->getPosition();
 		std::cout << "Projectile gone out of bounds" << std::endl;
 		m_entity->destroy();
 	}
