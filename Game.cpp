@@ -140,7 +140,7 @@ void Game::update() {
 
 	if (projectiles.size() == 0)
 	{
-		m_asset_manager.CreateProjectileRandom(3, 7, "projectile", m_renderer);
+		m_asset_manager.CreateProjectileRandom(100, m_window_height - 200, 3, 7, "projectile", m_renderer);
 		auto& projectiles(manager.getGroup(Game::groupProjectiles));
 	}
 

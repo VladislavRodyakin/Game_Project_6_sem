@@ -23,7 +23,7 @@ public:
 
 	//game object management
 	void CreateProjectile(Vector2D pos, Vector2D direction, int range, int speed, const std::string& texture_id, SDL_Renderer* renderer);
-	void CreateProjectileRandom(int min_speed, int max_speed, const std::string& texture_id, SDL_Renderer* renderer);
+	void CreateProjectileRandom(int min_pos, int max_pos, int min_speed, int max_speed, const std::string& texture_id, SDL_Renderer* renderer);
 
 
 	//texture management

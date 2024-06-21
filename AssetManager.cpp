@@ -19,7 +19,7 @@ void AssetManager::CreateProjectile(Vector2D pos, Vector2D direction, int range,
 	projectile.addGroup(Game::groupProjectiles);
 }
 
-void AssetManager::CreateProjectileRandom(int min_speed, int max_speed, const std::string& texture_id, SDL_Renderer* renderer)
+void AssetManager::CreateProjectileRandom(int min_pos, int max_pos, int min_speed, int max_speed, const std::string& texture_id, SDL_Renderer* renderer)
 {
 	std::random_device pos_rng_dev;
 	std::random_device dir_rng_dev;
@@ -27,7 +27,7 @@ void AssetManager::CreateProjectileRandom(int min_speed, int max_speed, const st
 	std::mt19937 pos_rng(pos_rng_dev());
 	std::mt19937 dir_rng(dir_rng_dev());
 	std::mt19937 speed_rng(speed_rng_dev());
-	std::uniform_int_distribution<std::mt19937::result_type> position_rng(0, 900); 
+	std::uniform_int_distribution<std::mt19937::result_type> position_rng(min_pos, max_pos); 
 	std::uniform_int_distribution<std::mt19937::result_type> direction_rng(1, 1000); 
 	std::uniform_int_distribution<std::mt19937::result_type> movespeed_rng(min_speed, max_speed);
 	CreateProjectile(
