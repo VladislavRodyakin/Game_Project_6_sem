@@ -27,9 +27,9 @@ void AssetManager::CreateProjectileRandom(int min_speed, int max_speed, const st
 	std::mt19937 pos_rng(pos_rng_dev());
 	std::mt19937 dir_rng(dir_rng_dev());
 	std::mt19937 speed_rng(speed_rng_dev());
-	std::uniform_int_distribution<std::mt19937::result_type> position_rng(75, 575); 
+	std::uniform_int_distribution<std::mt19937::result_type> position_rng(0, 900); 
 	std::uniform_int_distribution<std::mt19937::result_type> direction_rng(1, 1000); 
-	std::uniform_int_distribution<std::mt19937::result_type> movespeed_rng(5, 10);
+	std::uniform_int_distribution<std::mt19937::result_type> movespeed_rng(min_speed, max_speed);
 	CreateProjectile(
 		Vector2D{ static_cast<float>(position_rng(pos_rng)), static_cast<float>(position_rng(pos_rng)) },
 		Vector2D{ 
